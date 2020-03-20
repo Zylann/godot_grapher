@@ -47,10 +47,6 @@ func _draw():
 	
 	_draw_grid()
 	
-	# Axis lines
-	draw_line(Vector2(-size.x, 0), Vector2(size.x, 0), X_AXIS_COLOR)
-	draw_line(Vector2(0, -size.y), Vector2(0, size.y), Y_AXIS_COLOR)
-	
 	if _error == OK:
 		var col = Color(1, 1, 0)
 		var prev_y = null
@@ -86,6 +82,9 @@ func _draw_grid():
 		while y < gmax.y:
 			draw_line(Vector2(gmin.x, y), Vector2(gmax.x, y), _grid_color)
 			y += step.y
+
+	draw_line(Vector2(gmin.x, 0), Vector2(gmax.x, 0), X_AXIS_COLOR)
+	draw_line(Vector2(0, gmin.y), Vector2(0, gmax.y), Y_AXIS_COLOR)
 
 
 func _on_LineEdit_text_entered(new_text):
