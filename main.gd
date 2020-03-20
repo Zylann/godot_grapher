@@ -25,12 +25,18 @@ func _gui_input(event):
 		var factor = 1.1
 		match event.button_index:
 			BUTTON_WHEEL_UP:
-				_view_scale *= factor
-				update()
+				_add_zoom(factor, event.position)
 			BUTTON_WHEEL_DOWN:
-				_view_scale /= factor
-				update()
-	
+				_add_zoom(1.0 / factor, event.position)
+
+
+func _add_zoom(factor, mpos):
+	var gpos = _pixel_to_graph_position(mpos)
+	_view_scale *= factor
+	var gpos2 = _pixel_to_graph_position(mpos)
+	_view_offset += gpos - gpos2
+	update()
+
 
 func _pixel_to_graph_position(ppos):
 	return (Vector2(ppos.x, rect_size.y - ppos.y) - rect_size / 2) / _view_scale + _view_offset
