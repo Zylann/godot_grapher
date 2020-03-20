@@ -1,9 +1,15 @@
 extends Control
 
+const X_AXIS_COLOR = Color(1, 0.5, 0.5)
+const Y_AXIS_COLOR = Color(0.5, 1.0, 0.5)
+
 var _expression = Expression.new()
 var _error = ERR_UNAVAILABLE
+
 var _view_scale = Vector2(100, 100)
 var _view_offset = Vector2(0, 0)
+var _grid_color = Color(1, 1, 1, 0.15)
+var _grid_step = Vector2(1, 1)
 
 
 func _gui_input(event):
@@ -39,14 +45,11 @@ func _draw():
 	var pixel_view_offset = Vector2(-_view_offset.x, _view_offset.y) * _view_scale
 	draw_set_transform(size / 2 + pixel_view_offset, 0, Vector2(_view_scale.x, -_view_scale.y))
 	
+	_draw_grid()
+	
 	# Axis lines
-	var xcolor = Color(1, 0.5, 0.5)
-	var ycolor = Color(0.5, 1.0, 0.5)
-	draw_line(Vector2(-size.x, 0), Vector2(size.x, 0), xcolor)
-	draw_line(Vector2(0, -size.y), Vector2(0, size.y), ycolor)
-	# Graduations
-	draw_line(Vector2(1, -4 * step_y), Vector2(1, 4 * step_y), xcolor)
-	draw_line(Vector2(-4 * step_x, 1), Vector2(4 * step_x, 1), ycolor)
+	draw_line(Vector2(-size.x, 0), Vector2(size.x, 0), X_AXIS_COLOR)
+	draw_line(Vector2(0, -size.y), Vector2(0, size.y), Y_AXIS_COLOR)
 	
 	if _error == OK:
 		var col = Color(1, 1, 0)
@@ -62,6 +65,27 @@ func _draw():
 			and (not is_nan(y)) and (not is_inf(y)) and prev_y != null:
 				draw_line(Vector2(x - step_x, prev_y), Vector2(x, y), col)
 			prev_y = y
+
+
+func _draw_grid():
+	var step = _grid_step
+	var gmin = _pixel_to_graph_position(Vector2(0, rect_size.y)).snapped(step) - step
+	var gmax = _pixel_to_graph_position(Vector2(rect_size.x, 0)).snapped(step) + step
+	
+	var counts = rect_size / (_view_scale * step)
+	var max_counts = rect_size / 2
+	
+	if counts.x < max_counts.x:
+		var x = gmin.x
+		while x < gmax.x:
+			draw_line(Vector2(x, gmin.y), Vector2(x, gmax.y), _grid_color)
+			x += step.x
+	
+	if counts.y < max_counts.y:
+		var y = gmin.y
+		while y < gmax.y:
+			draw_line(Vector2(gmin.x, y), Vector2(gmax.x, y), _grid_color)
+			y += step.y
 
 
 func _on_LineEdit_text_entered(new_text):
