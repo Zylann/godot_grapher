@@ -19,6 +19,10 @@ config/name="Grapher"
 run/main_scene="res://main.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1200
+
 [rendering]
 
 quality/driver/driver_name="GLES2"
@@ -28,5 +32,6 @@ quality/shadow_atlas/size=256
 quality/reflections/texture_array_reflections=false
 quality/reflections/high_quality_ggx=false
 quality/depth_prepass/enable=false
+environment/default_clear_color=Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"
