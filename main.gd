@@ -3,17 +3,6 @@ extends Control
 const ProjectData = preload("./project_data.gd")
 const Outliner = preload("./outliner.gd")
 
-const _predefined_func_settings = [
-	["f", Color(1, 1, 0)],
-	["g", Color(0, 1, 0)],
-	["h", Color(1, 0, 1)],
-	["i", Color(0, 1, 1)],
-	["j", Color(1, 0, 0)],
-	["k", Color(0.2, 0.4, 1)],
-	["l", Color(1, 0.5, 0)],
-	["m", Color(0, 0.5, 1)]
-]
-
 const _predefined_cursor_names = [
 	"a", "b", "c", "d", "e"
 ]
@@ -30,6 +19,7 @@ func _ready():
 	_project = ProjectData.new()
 	_outliner.set_project(_project)
 	_graph_view.set_project(_project)
+	_formula_edit.set_project(_project)
 
 
 func _on_FormulaEdit_formula_entered(new_text):
@@ -54,7 +44,7 @@ func _on_AddFunctionButton_pressed():
 
 func _create_function(formula : String):
 	var fsettings = null
-	for it in _predefined_func_settings:
+	for it in ProjectData.predefined_func_settings:
 		if not _project.has_function(it[0]):
 			fsettings = it
 			break

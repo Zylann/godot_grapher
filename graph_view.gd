@@ -1,5 +1,7 @@
 extends Control
 
+const ProjectData = preload("./project_data.gd")
+
 const X_AXIS_COLOR = Color(1, 0.5, 0.5)
 const Y_AXIS_COLOR = Color(0.5, 1.0, 0.5)
 
@@ -64,24 +66,42 @@ func _draw():
 	var pixel_x_min = -size.x * 0.5 - pixel_view_offset.x
 	var pixel_x_max = size.x * 0.5 - pixel_view_offset.x
 	
+	# Gather variables
 	var cursor_names = _project.get_cursor_names()
 	var var_names = PoolStringArray()
 	var_names.resize(1 + len(cursor_names))
 	var_names[0] = "x"
-	
 	var var_inputs = []
 	var_inputs.resize(len(var_names))
 	for i in len(cursor_names):
 		var c = _project.get_cursor_by_name(cursor_names[i])
 		var_names[i + 1] = c.name
 		var_inputs[i + 1] = c.value
-
+	
+	# Gather expressions
+	var expressions = []
+	var indexed_funcs = []
+	expressions.resize(len(ProjectData.predefined_func_settings))
+	indexed_funcs.resize(len(expressions))
 	for f in functions:
 		var expression = Expression.new()
 		var error = expression.parse(f.formula, var_names)
 		if error != OK:
 			#print(f.name, ": ", error)
 			continue
+		var i = ProjectData.get_index_from_preset_function_name(f.name)
+		assert(i != -1)
+		expressions[i] = expression
+		indexed_funcs[i] = f
+	
+	var expression_context = ExpressionContext.new(expressions, var_inputs)
+
+	# Draw each function
+	for func_index in len(indexed_funcs):
+		var expression = expressions[func_index]
+		if expression == null:
+			continue
+		var f = indexed_funcs[func_index]
 		
 		var prev_y = null
 		var color = f.color
@@ -89,7 +109,7 @@ func _draw():
 		for i in range(pixel_x_min, pixel_x_max):
 			var x = float(i) / _view_scale.x
 			var_inputs[0] = x
-			var y = expression.execute(var_inputs, null, false)
+			var y = expression.execute(var_inputs, expression_context, false)
 			
 			if expression.has_execute_failed():
 				#print(expression.get_error_text())
@@ -128,3 +148,44 @@ func _draw_grid():
 	draw_line(Vector2(gmin.x, 0), Vector2(gmax.x, 0), X_AXIS_COLOR)
 	draw_line(Vector2(0, gmin.y), Vector2(0, gmax.y), Y_AXIS_COLOR)
 
+
+# Oh joy, Expression's function binding is class based.
+class ExpressionContext:
+	var _expressions : Array
+	var _var_inputs : Array
+	
+	func _init(expressions, var_inputs):
+		_var_inputs = var_inputs
+		_expressions = expressions
+		
+	func _internal_exec(i: int, x: float):
+		var e = _expressions[0]
+		if e == null:
+			return
+		var args = _var_inputs.duplicate()
+		args[0] = x
+		return _expressions[0].execute(args, self, false)
+		
+	func f(x):
+		return _internal_exec(0, x)
+
+	func g(x):
+		return _internal_exec(1, x)
+
+	func h(x):
+		return _internal_exec(2, x)
+
+	func i(x):
+		return _internal_exec(3, x)
+
+	func j(x):
+		return _internal_exec(4, x)
+
+	func k(x):
+		return _internal_exec(5, x)
+
+	func l(x):
+		return _internal_exec(6, x)
+
+	func m(x):
+		return _internal_exec(7, x)
