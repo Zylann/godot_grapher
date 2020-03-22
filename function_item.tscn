@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://function_item.gd" type="Script" id=1]
+[ext_resource path="res://fonts/hack_regular_small_font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://icons/dot.png" type="Texture" id=3]
+
+[node name="FunctionItem" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -945.0
+margin_bottom = -578.0
+rect_min_size = Vector2( 0, 24 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SelectionBg" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.156863, 0.266667, 0.356863, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer"]
+margin_right = 16.0
+margin_bottom = 24.0
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/CenterContainer"]
+margin_top = 4.0
+margin_right = 16.0
+margin_bottom = 20.0
+texture = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_left = 20.0
+margin_top = 3.0
+margin_right = 255.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 2 )
+text = "f(x) = <empty>"
+clip_text = true
