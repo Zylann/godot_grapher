@@ -47,3 +47,7 @@ func create_function(fname):
 	_functions[fname] = f
 	return f
 
+
+func remove_function(fname):
+	_functions.erase(fname)
+

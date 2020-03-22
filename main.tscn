@@ -89,7 +89,7 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="VB/HSplit/Outliner/VB/Functions/HB"]
 margin_top = 3.0
-margin_right = 210.0
+margin_right = 187.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "Functions"
@@ -98,13 +98,19 @@ __meta__ = {
 }
 
 [node name="AddFunctionButton" type="Button" parent="VB/HSplit/Outliner/VB/Functions/HB"]
-margin_left = 214.0
-margin_right = 234.0
+margin_left = 191.0
+margin_right = 211.0
 margin_bottom = 20.0
 text = "+"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="RemoveFunctionButton" type="Button" parent="VB/HSplit/Outliner/VB/Functions/HB"]
+margin_left = 215.0
+margin_right = 234.0
+margin_bottom = 20.0
+text = "x"
 
 [node name="Cursors" type="ColorRect" parent="VB/HSplit/Outliner/VB"]
 margin_top = 32.0
@@ -184,5 +190,6 @@ __meta__ = {
 }
 [connection signal="function_selected" from="VB/HSplit/Outliner" to="." method="_on_Outliner_function_selected"]
 [connection signal="pressed" from="VB/HSplit/Outliner/VB/Functions/HB/AddFunctionButton" to="." method="_on_AddFunctionButton_pressed"]
+[connection signal="pressed" from="VB/HSplit/Outliner/VB/Functions/HB/RemoveFunctionButton" to="VB/HSplit/Outliner" method="_on_RemoveFunctionButton_pressed"]
 [connection signal="formula_entered" from="VB/HSplit/VBRight/FormulaEdit" to="." method="_on_FormulaEdit_formula_entered"]
 [connection signal="text_entered" from="VB/HSplit/VBRight/FormulaEdit/HB/LineEdit" to="VB/HSplit/VBRight/FormulaEdit" method="_on_LineEdit_text_entered"]
