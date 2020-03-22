@@ -9,7 +9,7 @@ onready var _selection_bg = $SelectionBg
 var _function_name = ""
 
 
-func get_function_name():
+func get_item_name():
 	return _function_name
 
 

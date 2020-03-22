@@ -51,12 +51,12 @@ margin_top = 29.0
 margin_right = 1200.0
 margin_bottom = 600.0
 size_flags_vertical = 3
-split_offset = 150
+split_offset = 50
 
 [node name="Outliner" type="Panel" parent="VB/HSplit"]
-margin_right = 250.0
+margin_right = 270.0
 margin_bottom = 571.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 220, 0 )
 script = ExtResource( 3 )
 
 [node name="VB" type="VBoxContainer" parent="VB/HSplit/Outliner"]
@@ -71,7 +71,7 @@ __meta__ = {
 }
 
 [node name="Functions" type="ColorRect" parent="VB/HSplit/Outliner/VB"]
-margin_right = 242.0
+margin_right = 262.0
 margin_bottom = 28.0
 rect_min_size = Vector2( 0, 28 )
 color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
@@ -89,7 +89,7 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="VB/HSplit/Outliner/VB/Functions/HB"]
 margin_top = 3.0
-margin_right = 187.0
+margin_right = 207.0
 margin_bottom = 17.0
 size_flags_horizontal = 3
 text = "Functions"
@@ -98,8 +98,8 @@ __meta__ = {
 }
 
 [node name="AddFunctionButton" type="Button" parent="VB/HSplit/Outliner/VB/Functions/HB"]
-margin_left = 191.0
-margin_right = 211.0
+margin_left = 211.0
+margin_right = 231.0
 margin_bottom = 20.0
 text = "+"
 __meta__ = {
@@ -107,14 +107,14 @@ __meta__ = {
 }
 
 [node name="RemoveFunctionButton" type="Button" parent="VB/HSplit/Outliner/VB/Functions/HB"]
-margin_left = 215.0
-margin_right = 234.0
+margin_left = 235.0
+margin_right = 254.0
 margin_bottom = 20.0
 text = "x"
 
 [node name="Cursors" type="ColorRect" parent="VB/HSplit/Outliner/VB"]
 margin_top = 32.0
-margin_right = 242.0
+margin_right = 262.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 0, 28 )
 color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
@@ -132,21 +132,34 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="VB/HSplit/Outliner/VB/Cursors/HB"]
 margin_top = 3.0
-margin_right = 48.0
+margin_right = 207.0
 margin_bottom = 17.0
+size_flags_horizontal = 3
 text = "Cursors"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AddCursorButton" type="Button" parent="VB/HSplit/Outliner/VB/Cursors/HB"]
+margin_left = 211.0
+margin_right = 231.0
+margin_bottom = 20.0
+text = "+"
+
+[node name="RemoveCursorButton" type="Button" parent="VB/HSplit/Outliner/VB/Cursors/HB"]
+margin_left = 235.0
+margin_right = 254.0
+margin_bottom = 20.0
+text = "x"
+
 [node name="VBRight" type="VBoxContainer" parent="VB/HSplit"]
-margin_left = 262.0
+margin_left = 282.0
 margin_right = 1200.0
 margin_bottom = 571.0
 custom_constants/separation = 0
 
 [node name="Graph" type="ColorRect" parent="VB/HSplit/VBRight"]
-margin_right = 938.0
+margin_right = 918.0
 margin_bottom = 531.0
 rect_clip_content = true
 size_flags_vertical = 3
@@ -155,7 +168,7 @@ script = ExtResource( 4 )
 
 [node name="FormulaEdit" type="Panel" parent="VB/HSplit/VBRight"]
 margin_top = 531.0
-margin_right = 938.0
+margin_right = 918.0
 margin_bottom = 571.0
 rect_min_size = Vector2( 0, 40 )
 script = ExtResource( 5 )
@@ -180,7 +193,7 @@ text = "f(x) = "
 
 [node name="LineEdit" type="LineEdit" parent="VB/HSplit/VBRight/FormulaEdit/HB"]
 margin_left = 74.0
-margin_right = 930.0
+margin_right = 910.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
@@ -191,5 +204,7 @@ __meta__ = {
 [connection signal="function_selected" from="VB/HSplit/Outliner" to="." method="_on_Outliner_function_selected"]
 [connection signal="pressed" from="VB/HSplit/Outliner/VB/Functions/HB/AddFunctionButton" to="." method="_on_AddFunctionButton_pressed"]
 [connection signal="pressed" from="VB/HSplit/Outliner/VB/Functions/HB/RemoveFunctionButton" to="VB/HSplit/Outliner" method="_on_RemoveFunctionButton_pressed"]
+[connection signal="pressed" from="VB/HSplit/Outliner/VB/Cursors/HB/AddCursorButton" to="." method="_on_AddCursorButton_pressed"]
+[connection signal="pressed" from="VB/HSplit/Outliner/VB/Cursors/HB/RemoveCursorButton" to="VB/HSplit/Outliner" method="_on_RemoveCursorButton_pressed"]
 [connection signal="formula_entered" from="VB/HSplit/VBRight/FormulaEdit" to="." method="_on_FormulaEdit_formula_entered"]
 [connection signal="text_entered" from="VB/HSplit/VBRight/FormulaEdit/HB/LineEdit" to="VB/HSplit/VBRight/FormulaEdit" method="_on_LineEdit_text_entered"]

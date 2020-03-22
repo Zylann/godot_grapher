@@ -1,6 +1,7 @@
 extends Control
 
 const ProjectData = preload("./project_data.gd")
+const Outliner = preload("./outliner.gd")
 
 const _predefined_func_settings = [
 	["f", Color(1, 1, 0)],
@@ -13,11 +14,11 @@ const _predefined_func_settings = [
 	["m", Color(0, 0.5, 1)]
 ]
 
-#const _predefined_cursor_names = [
-#	"a", "b", "c", "d", "e"
-#]
+const _predefined_cursor_names = [
+	"a", "b", "c", "d", "e"
+]
 
-onready var _outliner = $VB/HSplit/Outliner
+onready var _outliner := $VB/HSplit/Outliner as Outliner
 onready var _graph_view = $VB/HSplit/VBRight/Graph
 onready var _formula_edit = $VB/HSplit/VBRight/FormulaEdit
 
@@ -36,7 +37,7 @@ func _on_FormulaEdit_formula_entered(new_text):
 		_create_function(new_text)
 		return
 	
-	var fname = _outliner.get_selected_function_name()
+	var fname := _outliner.get_selected_function_name()
 	if fname == "":
 		_create_function(new_text)
 		return
@@ -81,5 +82,26 @@ func _on_Outliner_function_selected(fname):
 	var f = _project.get_function_by_name(fname)
 	_formula_edit.set_function_name(fname)
 	_formula_edit.set_text(f.formula)
+	_graph_view.update()
 
 
+func _on_AddCursorButton_pressed():
+	_add_cursor()
+
+
+func _add_cursor():
+	var cname := ""
+	for it in _predefined_cursor_names:
+		if not _project.has_cursor(it):
+			cname = it
+			break
+	if cname == "":
+		# TODO Ask for cursor name?
+		print("No cursor name available")
+		return
+	
+	_project.create_cursor(cname)
+
+	_outliner.update_list()
+	_outliner.select_cursor(cname)
+	_graph_view.update()
