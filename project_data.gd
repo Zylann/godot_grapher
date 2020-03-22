@@ -28,6 +28,10 @@ func get_function_list():
 	return _functions.values()
 
 
+func get_function_count():
+	return len(_functions)
+
+
 func get_function_by_name(fname):
 	return _functions[fname]
 

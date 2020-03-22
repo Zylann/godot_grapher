@@ -72,36 +72,62 @@ __meta__ = {
 
 [node name="Functions" type="ColorRect" parent="VB/HSplit/Outliner/VB"]
 margin_right = 242.0
-margin_bottom = 24.0
-rect_min_size = Vector2( 0, 24 )
+margin_bottom = 28.0
+rect_min_size = Vector2( 0, 28 )
 color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 
-[node name="Label" type="Label" parent="VB/HSplit/Outliner/VB/Functions"]
+[node name="HB" type="HBoxContainer" parent="VB/HSplit/Outliner/VB/Functions"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 4.0
 margin_right = -4.0
 margin_bottom = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VB/HSplit/Outliner/VB/Functions/HB"]
+margin_top = 3.0
+margin_right = 210.0
+margin_bottom = 17.0
+size_flags_horizontal = 3
 text = "Functions"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="AddFunctionButton" type="Button" parent="VB/HSplit/Outliner/VB/Functions/HB"]
+margin_left = 214.0
+margin_right = 234.0
+margin_bottom = 20.0
+text = "+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Cursors" type="ColorRect" parent="VB/HSplit/Outliner/VB"]
-margin_top = 28.0
+margin_top = 32.0
 margin_right = 242.0
-margin_bottom = 52.0
-rect_min_size = Vector2( 0, 24 )
+margin_bottom = 60.0
+rect_min_size = Vector2( 0, 28 )
 color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 
-[node name="Label" type="Label" parent="VB/HSplit/Outliner/VB/Cursors"]
+[node name="HB" type="HBoxContainer" parent="VB/HSplit/Outliner/VB/Cursors"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 4.0
 margin_right = -4.0
 margin_bottom = -4.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="VB/HSplit/Outliner/VB/Cursors/HB"]
+margin_top = 3.0
+margin_right = 48.0
+margin_bottom = 17.0
 text = "Cursors"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -148,18 +174,15 @@ text = "f(x) = "
 
 [node name="LineEdit" type="LineEdit" parent="VB/HSplit/VBRight/FormulaEdit/HB"]
 margin_left = 74.0
-margin_right = 857.0
+margin_right = 930.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
+caret_blink = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Button" type="Button" parent="VB/HSplit/VBRight/FormulaEdit/HB"]
-margin_left = 861.0
-margin_right = 930.0
-margin_bottom = 32.0
-text = "Add New"
+[connection signal="function_selected" from="VB/HSplit/Outliner" to="." method="_on_Outliner_function_selected"]
+[connection signal="pressed" from="VB/HSplit/Outliner/VB/Functions/HB/AddFunctionButton" to="." method="_on_AddFunctionButton_pressed"]
 [connection signal="formula_entered" from="VB/HSplit/VBRight/FormulaEdit" to="." method="_on_FormulaEdit_formula_entered"]
 [connection signal="text_entered" from="VB/HSplit/VBRight/FormulaEdit/HB/LineEdit" to="VB/HSplit/VBRight/FormulaEdit" method="_on_LineEdit_text_entered"]

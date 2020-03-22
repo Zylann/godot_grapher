@@ -18,6 +18,7 @@ func set_color(color):
 
 
 func set_label(fname, formula):
+	_function_name = fname
 	_label.text = str(fname, "(x) = ", formula)
 
 
