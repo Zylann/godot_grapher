@@ -3,9 +3,6 @@ class Function:
 	var name = ""
 	var formula = ""
 	var color = Color(1, 1, 0)
-	# Transient
-	var expression = Expression.new()
-	var error = ERR_UNAVAILABLE
 
 
 class Cursor:

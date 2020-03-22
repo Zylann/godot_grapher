@@ -60,24 +60,41 @@ func _draw():
 		return
 	
 	var functions = _project.get_function_list()
-	var args = [0]
 	
 	var pixel_x_min = -size.x * 0.5 - pixel_view_offset.x
 	var pixel_x_max = size.x * 0.5 - pixel_view_offset.x
+	
+	var cursor_names = _project.get_cursor_names()
+	var var_names = PoolStringArray()
+	var_names.resize(1 + len(cursor_names))
+	var_names[0] = "x"
+	
+	var var_inputs = []
+	var_inputs.resize(len(var_names))
+	for i in len(cursor_names):
+		var c = _project.get_cursor_by_name(cursor_names[i])
+		var_names[i + 1] = c.name
+		var_inputs[i + 1] = c.value
 
 	for f in functions:
-		if f.error != OK:
+		var expression = Expression.new()
+		var error = expression.parse(f.formula, var_names)
+		if error != OK:
+			#print(f.name, ": ", error)
 			continue
 		
 		var prev_y = null
-		
-		var expression = f.expression
 		var color = f.color
-
+		
 		for i in range(pixel_x_min, pixel_x_max):
 			var x = float(i) / _view_scale.x
-			args[0] = x
-			var y = expression.execute(args, null, false)
+			var_inputs[0] = x
+			var y = expression.execute(var_inputs, null, false)
+			
+			if expression.has_execute_failed():
+				#print(expression.get_error_text())
+				break
+			
 			if (typeof(y) == TYPE_REAL or typeof(y) == TYPE_INT) \
 			and (not is_nan(y)) and (not is_inf(y)):
 				if prev_y != null:

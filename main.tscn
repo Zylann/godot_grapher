@@ -201,6 +201,7 @@ caret_blink = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="cursor_changed" from="VB/HSplit/Outliner" to="." method="_on_Outliner_cursor_changed"]
 [connection signal="function_selected" from="VB/HSplit/Outliner" to="." method="_on_Outliner_function_selected"]
 [connection signal="pressed" from="VB/HSplit/Outliner/VB/Functions/HB/AddFunctionButton" to="." method="_on_AddFunctionButton_pressed"]
 [connection signal="pressed" from="VB/HSplit/Outliner/VB/Functions/HB/RemoveFunctionButton" to="VB/HSplit/Outliner" method="_on_RemoveFunctionButton_pressed"]

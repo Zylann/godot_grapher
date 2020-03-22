@@ -44,7 +44,6 @@ func _on_FormulaEdit_formula_entered(new_text):
 	
 	var f = _project.get_function_by_name(fname)
 	f.formula = new_text
-	f.error = f.expression.parse(f.formula, PoolStringArray(["x"]))
 	_outliner.update_list()
 	_graph_view.update()
 
@@ -69,9 +68,7 @@ func _create_function(formula : String):
 	
 	var f = _project.create_function(fname)
 	f.color = color
-	if formula != "":
-		f.formula = formula
-		f.error = f.expression.parse(f.formula, PoolStringArray(["x"]))
+	f.formula = formula
 
 	_outliner.update_list()
 	_outliner.select_function(fname, true)
@@ -104,4 +101,8 @@ func _add_cursor():
 
 	_outliner.update_list()
 	_outliner.select_cursor(cname)
+	_graph_view.update()
+
+
+func _on_Outliner_cursor_changed():
 	_graph_view.update()

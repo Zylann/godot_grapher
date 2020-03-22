@@ -8,6 +8,7 @@ const FunctionItemScene = preload("./function_item.tscn")
 const CursorItemScene = preload("./cursor_item.tscn")
 
 signal function_selected(fname)
+signal cursor_changed
 
 onready var _functions_header := $VB/Functions as Control
 onready var _cursors_header := $VB/Cursors as Control
@@ -105,6 +106,7 @@ func _update_cursors_list():
 		if ci == null or not (ci is CursorItem):
 			ci = CursorItemScene.instance()
 			ci.connect("clicked", self, "_on_cursor_item_clicked", [ci])
+			ci.connect("value_changed", self, "_on_cursor_value_changed", [ci])
 			_container.add_child(ci)
 			_container.move_child(ci, index)
 		
@@ -191,4 +193,9 @@ func _on_RemoveCursorButton_pressed():
 func _on_cursor_item_clicked(ci):
 	select_cursor(ci.get_item_name())
 
+
+func _on_cursor_value_changed(value, ci):
+	var c = _project.get_cursor_by_name(ci.get_item_name())
+	c.value = value
+	emit_signal("cursor_changed")
 
