@@ -49,6 +49,8 @@ func _pixel_to_graph_position(ppos):
 
 
 func _draw():
+#	var time_before = OS.get_ticks_usec()
+	
 	var size = rect_size
 	var step_x = 1.0 / _view_scale.x
 	var step_y = 1.0 / _view_scale.y
@@ -63,8 +65,8 @@ func _draw():
 	
 	var functions = _project.get_function_list()
 	
-	var pixel_x_min = -size.x * 0.5 - pixel_view_offset.x
-	var pixel_x_max = size.x * 0.5 - pixel_view_offset.x
+	var pixel_x_min = int(floor(-size.x * 0.5 - pixel_view_offset.x))
+	var pixel_x_max = int(floor(size.x * 0.5 - pixel_view_offset.x))
 	
 	# Gather variables
 	var cursor_names = _project.get_cursor_names()
@@ -95,17 +97,21 @@ func _draw():
 		indexed_funcs[i] = f
 	
 	var expression_context = ExpressionContext.new(expressions, var_inputs)
+	var pixel_width = int(rect_size.x)
+	var points = []
+	points.resize(pixel_width)
 
-	# Draw each function
+	# Draw each function	
 	for func_index in len(indexed_funcs):
 		var expression = expressions[func_index]
 		if expression == null:
 			continue
 		var f = indexed_funcs[func_index]
 		
-		var prev_y = null
 		var color = f.color
-		
+		var pi = 0
+		#var segment_count = 0
+				
 		for i in range(pixel_x_min, pixel_x_max):
 			var x = float(i) / _view_scale.x
 			var_inputs[0] = x
@@ -117,12 +123,38 @@ func _draw():
 			
 			if (typeof(y) == TYPE_REAL or typeof(y) == TYPE_INT) \
 			and (not is_nan(y)) and (not is_inf(y)):
-				if prev_y != null:
-					# TODO This is super slow. Use draw_polyline I guess
-					draw_line(Vector2(x - step_x, prev_y), Vector2(x, y), color)
-				prev_y = y
+				points[pi] = Vector2(x, y)
+				pi += 1
 			else:
-				prev_y = null
+				if pi > 1:
+					_draw_polyline(points, pi, color)
+					#segment_count += 1
+				pi = 0
+		
+		if pi > 1:
+			_draw_polyline(points, pi, color)
+			#segment_count += 1
+		
+		#print("Segment count: ", segment_count)
+	
+#	var time_spent = OS.get_ticks_usec() - time_before
+#	print("Time: ", time_spent / 1000.0, "ms")
+
+
+func _draw_polyline(points, count, color):
+	var pts = PoolVector2Array()
+	#    a, b, c, d, e
+	# => a, b, b, c, c, d, d, e
+	pts.resize((count - 2) * 2 + 2)
+	pts[0] = points[0]
+	var j = 1
+	for i in range(1, count - 1):
+		pts[j] = points[i]
+		j += 1
+		pts[j] = points[i]
+		j += 1
+	pts[len(pts) - 1] = points[count - 1]
+	draw_polyline(pts, color)
 
 
 func _draw_grid():
