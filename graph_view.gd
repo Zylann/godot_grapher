@@ -60,23 +60,32 @@ func _draw():
 		return
 	
 	var functions = _project.get_function_list()
+	var args = [0]
 	
+	var pixel_x_min = -size.x * 0.5 - pixel_view_offset.x
+	var pixel_x_max = size.x * 0.5 - pixel_view_offset.x
+
 	for f in functions:
 		if f.error != OK:
 			continue
 		
 		var prev_y = null
 		
-		var pixel_x_min = -size.x - pixel_view_offset.x
-		var pixel_x_max = size.x - pixel_view_offset.x
-		
+		var expression = f.expression
+		var color = f.color
+
 		for i in range(pixel_x_min, pixel_x_max):
 			var x = float(i) / _view_scale.x
-			var y = f.expression.execute([x], null, false)
+			args[0] = x
+			var y = expression.execute(args, null, false)
 			if (typeof(y) == TYPE_REAL or typeof(y) == TYPE_INT) \
-			and (not is_nan(y)) and (not is_inf(y)) and prev_y != null:
-				draw_line(Vector2(x - step_x, prev_y), Vector2(x, y), f.color)
-			prev_y = y
+			and (not is_nan(y)) and (not is_inf(y)):
+				if prev_y != null:
+					# TODO This is super slow. Use draw_polyline I guess
+					draw_line(Vector2(x - step_x, prev_y), Vector2(x, y), color)
+				prev_y = y
+			else:
+				prev_y = null
 
 
 func _draw_grid():
