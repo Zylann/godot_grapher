@@ -191,12 +191,12 @@ class ExpressionContext:
 		_expressions = expressions
 		
 	func _internal_exec(i: int, x: float):
-		var e = _expressions[0]
+		var e = _expressions[i]
 		if e == null:
 			return
 		var args = _var_inputs.duplicate()
 		args[0] = x
-		return _expressions[0].execute(args, self, false)
+		return e.execute(args, self, false)
 		
 	func f(x):
 		return _internal_exec(0, x)
