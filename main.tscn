@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://main.gd" type="Script" id=1]
 [ext_resource path="res://fonts/hack_regular_font.tres" type="DynamicFont" id=2]
 [ext_resource path="res://outliner.gd" type="Script" id=3]
 [ext_resource path="res://graph_view.gd" type="Script" id=4]
 [ext_resource path="res://formula_edit.gd" type="Script" id=5]
+[ext_resource path="res://cursor_dialog.tscn" type="PackedScene" id=6]
 
 [node name="Main" type="Control"]
 anchor_right = 1.0
@@ -201,7 +202,11 @@ caret_blink = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CursorDialog" parent="." instance=ExtResource( 6 )]
+visible = false
 [connection signal="cursor_changed" from="VB/HSplit/Outliner" to="." method="_on_Outliner_cursor_changed"]
+[connection signal="cursor_settings_requested" from="VB/HSplit/Outliner" to="." method="_on_Outliner_cursor_settings_requested"]
 [connection signal="function_selected" from="VB/HSplit/Outliner" to="." method="_on_Outliner_function_selected"]
 [connection signal="pressed" from="VB/HSplit/Outliner/VB/Functions/HB/AddFunctionButton" to="." method="_on_AddFunctionButton_pressed"]
 [connection signal="pressed" from="VB/HSplit/Outliner/VB/Functions/HB/RemoveFunctionButton" to="VB/HSplit/Outliner" method="_on_RemoveFunctionButton_pressed"]
@@ -209,3 +214,4 @@ __meta__ = {
 [connection signal="pressed" from="VB/HSplit/Outliner/VB/Cursors/HB/RemoveCursorButton" to="VB/HSplit/Outliner" method="_on_RemoveCursorButton_pressed"]
 [connection signal="formula_entered" from="VB/HSplit/VBRight/FormulaEdit" to="." method="_on_FormulaEdit_formula_entered"]
 [connection signal="text_entered" from="VB/HSplit/VBRight/FormulaEdit/HB/LineEdit" to="VB/HSplit/VBRight/FormulaEdit" method="_on_LineEdit_text_entered"]
+[connection signal="confirmed" from="CursorDialog" to="." method="_on_CursorDialog_confirmed"]

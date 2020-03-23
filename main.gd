@@ -2,6 +2,7 @@ extends Control
 
 const ProjectData = preload("./project_data.gd")
 const Outliner = preload("./outliner.gd")
+const CursorDialog = preload("./cursor_dialog.gd")
 
 const _predefined_cursor_names = [
 	"a", "b", "c", "d", "e"
@@ -10,6 +11,7 @@ const _predefined_cursor_names = [
 onready var _outliner := $VB/HSplit/Outliner as Outliner
 onready var _graph_view = $VB/HSplit/VBRight/Graph
 onready var _formula_edit = $VB/HSplit/VBRight/FormulaEdit
+onready var _cursor_dialog := $CursorDialog as CursorDialog
 
 
 var _project : ProjectData = null
@@ -95,4 +97,15 @@ func _add_cursor():
 
 
 func _on_Outliner_cursor_changed():
+	_graph_view.update()
+
+
+func _on_Outliner_cursor_settings_requested(cname):
+	var c = _project.get_cursor_by_name(cname)
+	_cursor_dialog.set_cursor(c)
+	_cursor_dialog.popup_centered_minsize()
+
+
+func _on_CursorDialog_confirmed():
+	_outliner.call_deferred("update_list")
 	_graph_view.update()

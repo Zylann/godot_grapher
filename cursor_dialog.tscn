@@ -1,0 +1,86 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://cursor_dialog.gd" type="Script" id=1]
+
+[node name="CursorDialog" type="ConfirmationDialog"]
+visible = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 66.0
+margin_top = 76.0
+margin_right = -834.0
+margin_bottom = -384.0
+rect_min_size = Vector2( 300, 140 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 292.0
+margin_bottom = 104.0
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="GridContainer"]
+margin_top = 5.0
+margin_right = 64.0
+margin_bottom = 19.0
+text = "Min value"
+
+[node name="MinValueSpinBox" type="SpinBox" parent="GridContainer"]
+margin_left = 68.0
+margin_right = 284.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+min_value = -1000.0
+max_value = 1000.0
+step = 0.001
+allow_greater = true
+allow_lesser = true
+
+[node name="Label2" type="Label" parent="GridContainer"]
+margin_top = 33.0
+margin_right = 64.0
+margin_bottom = 47.0
+text = "Max value"
+
+[node name="MaxValueSpinBox" type="SpinBox" parent="GridContainer"]
+margin_left = 68.0
+margin_top = 28.0
+margin_right = 284.0
+margin_bottom = 52.0
+size_flags_horizontal = 3
+min_value = -1000.0
+max_value = 1000.0
+step = 0.001
+allow_greater = true
+allow_lesser = true
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Label3" type="Label" parent="GridContainer"]
+margin_top = 61.0
+margin_right = 64.0
+margin_bottom = 75.0
+text = "Step"
+
+[node name="StepSpinBox" type="SpinBox" parent="GridContainer"]
+margin_left = 68.0
+margin_top = 56.0
+margin_right = 284.0
+margin_bottom = 80.0
+min_value = 0.001
+max_value = 1000.0
+step = 0.001
+value = 0.001
+allow_greater = true
+[connection signal="confirmed" from="." to="." method="_on_CursorDialog_confirmed"]
+[connection signal="value_changed" from="GridContainer/MinValueSpinBox" to="." method="_on_MinValueSpinBox_value_changed"]
+[connection signal="value_changed" from="GridContainer/MaxValueSpinBox" to="." method="_on_MaxValueSpinBox_value_changed"]
+[connection signal="value_changed" from="GridContainer/StepSpinBox" to="." method="_on_StepSpinBox_value_changed"]

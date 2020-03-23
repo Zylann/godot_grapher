@@ -66,10 +66,11 @@ margin_right = 263.0
 margin_bottom = 27.0
 theme = SubResource( 1 )
 
-[node name="Button" type="Button" parent="HB"]
+[node name="SettingsButton" type="Button" parent="HB"]
 margin_left = 267.0
 margin_right = 287.0
 margin_bottom = 27.0
 text = "*"
 [connection signal="value_changed" from="HB/HSlider" to="." method="_on_HSlider_value_changed"]
 [connection signal="value_changed" from="HB/SpinBox" to="." method="_on_SpinBox_value_changed"]
+[connection signal="pressed" from="HB/SettingsButton" to="." method="_on_SettingsButton_pressed"]

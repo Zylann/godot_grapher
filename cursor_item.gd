@@ -2,6 +2,7 @@ extends Control
 
 signal clicked
 signal value_changed(new_value)
+signal settings_clicked
 
 
 onready var _label := $HB/Label as Label
@@ -54,3 +55,7 @@ func _gui_input(event):
 		if event.pressed:
 			if event.button_index == BUTTON_LEFT or event.button_index == BUTTON_RIGHT:
 				emit_signal("clicked")
+
+
+func _on_SettingsButton_pressed():
+	emit_signal("settings_clicked")

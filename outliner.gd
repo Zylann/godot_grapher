@@ -9,6 +9,7 @@ const CursorItemScene = preload("./cursor_item.tscn")
 
 signal function_selected(fname)
 signal cursor_changed
+signal cursor_settings_requested(cname)
 
 onready var _functions_header := $VB/Functions as Control
 onready var _cursors_header := $VB/Cursors as Control
@@ -107,6 +108,7 @@ func _update_cursors_list():
 			ci = CursorItemScene.instance()
 			ci.connect("clicked", self, "_on_cursor_item_clicked", [ci])
 			ci.connect("value_changed", self, "_on_cursor_value_changed", [ci])
+			ci.connect("settings_clicked", self, "_on_cursor_settings_clicked", [ci])
 			_container.add_child(ci)
 			_container.move_child(ci, index)
 		
@@ -199,3 +201,6 @@ func _on_cursor_value_changed(value, ci):
 	c.value = value
 	emit_signal("cursor_changed")
 
+
+func _on_cursor_settings_clicked(ci):
+	emit_signal("cursor_settings_requested", ci.get_item_name())
